@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:citycafe_app/screens/signup_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class Login_screen extends StatefulWidget {
   const Login_screen({Key? key}) : super(key: key);
@@ -73,34 +76,53 @@ class _Login_screenState extends State<Login_screen> {
                 ),
               ),
               Container(
-                  height: 50,
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xffe46b10)),
-                    child: const Text('Login'),
-                    onPressed: () async {
-                      try {
-                        var authenticationobject = FirebaseAuth.instance;
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffe46b10)),
+                  child: const Text('Login'),
+                  onPressed: () async {
+                    try {
+                      var authenticationobject = FirebaseAuth.instance;
 
-                        UserCredential myUser = await authenticationobject
-                            .signInWithEmailAndPassword(
-                                email: nameController!.text,
-                                password: passwordController!.text);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("login successfully")));
-                        if (myUser != null) {
-                          // Navigator.pushNamed(context, StorePage.screenRoute);
-                        }
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Invalid Email or Password")));
+                      UserCredential myUser =
+                          await authenticationobject.signInWithEmailAndPassword(
+                              email: nameController!.text,
+                              password: passwordController!.text);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("login successfully")));
+                      if (myUser != null) {
+                        // Navigator.pushNamed(context, StorePage.screenRoute);
                       }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Invalid Email or Password")));
+                    }
 
-                      print(nameController!.text);
-                      print(passwordController!.text);
-                    },
-                  )),
+                    print(nameController!.text);
+                    print(passwordController!.text);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              SignInButton(
+                text: "",
+                padding: EdgeInsets.all(1),
+                Buttons.Google,
+                onPressed: () {},
+              ),
+              MaterialButton(
+                onPressed: (() {}),
+                child: Image(
+                  image: AssetImage(
+                    'images/googleLogo.png',
+                  ),
+                  height: 40,
+                ),
+              ),
               Row(
                 children: <Widget>[
                   const Text('Does not have account?'),

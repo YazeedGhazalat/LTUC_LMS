@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
@@ -61,21 +62,21 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () async {
-        try {
-          var authenticationobject = FirebaseAuth.instance;
+        // try {
+        //   var authenticationobject = FirebaseAuth.instance;
 
-          UserCredential myUser =
-              await authenticationobject.createUserWithEmailAndPassword(
-                  email: email.text, password: password.text);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("added successfully")));
-          if (myUser != null) {
-            Navigator.pushNamed(context, StorePage.screenRoute);
-          }
-        } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Invalid Email or Used before")));
-        }
+        //   UserCredential myUser =
+        //       await authenticationobject.createUserWithEmailAndPassword(
+        //           email: email.text, password: password.text);
+        //   ScaffoldMessenger.of(context)
+        //       .showSnackBar(SnackBar(content: Text("added successfully")));
+        //   if (myUser != null) {
+        //    // Navigator.pushNamed(context, StorePage.screenRoute);
+        //   }
+        // } catch (e) {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //       SnackBar(content: Text("Invalid Email or Used before")));
+        // }
       },
       splashColor: Colors.red,
       child: Container(
