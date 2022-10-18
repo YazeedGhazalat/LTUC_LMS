@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1045357820998",
+    "project_id": "semifinal-72299",
+    "storage_bucket": "semifinal-72299.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045357820998:android:952d8a3a8a65a625c41e47",
+        "android_client_info": {
+          "package_name": "com.example.citycafe_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045357820998-crf7u9gevnjldv2mbiq99mgajb14ldrh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTGWgYg61eeBYnrwZ-t6YKJU67IPHpUzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045357820998-crf7u9gevnjldv2mbiq99mgajb14ldrh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
