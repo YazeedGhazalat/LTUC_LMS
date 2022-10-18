@@ -116,7 +116,7 @@ class _Login_screenState extends State<Login_screen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      signInWithGmail();
+                      signInWithGoogle();
                     },
                     child: Image.asset(
                       'images/googleLogo.png',
@@ -175,16 +175,20 @@ Widget _title() {
   );
 }
 
-signInWithGmail() async {
-  final GoogleSignInAccount? googleUser =
-      await GoogleSignIn(scopes: <String>["email"]).signIn();
-
-  final GoogleSignInAuthentication googleAuth =
-      await googleUser!.authentication;
-
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  print("$googleUser ***11***");
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth =
+      await googleUser?.authentication;
+  print("$googleAuth ****22***");
+  // Create a new credential
   final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
   );
+  print("$credential *****333****");
+  // Once signed in, return the UserCredential
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }
