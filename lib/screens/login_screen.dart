@@ -1,16 +1,17 @@
 import 'package:citycafe_app/screens/signup_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login_screen extends StatefulWidget {
   const Login_screen({Key? key}) : super(key: key);
-
+  static const String screenRoute = "login";
   @override
   State<Login_screen> createState() => _Login_screenState();
 }
 
 class _Login_screenState extends State<Login_screen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController? nameController = TextEditingController();
+  TextEditingController? passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +79,26 @@ class _Login_screenState extends State<Login_screen> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xffe46b10)),
                     child: const Text('Login'),
-                    onPressed: () {
-                      print(nameController.text);
-                      print(passwordController.text);
+                    onPressed: () async {
+                      try {
+                        var authenticationobject = FirebaseAuth.instance;
+
+                        UserCredential myUser = await authenticationobject
+                            .signInWithEmailAndPassword(
+                                email: nameController!.text,
+                                password: passwordController!.text);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("login successfully")));
+                        if (myUser != null) {
+                          // Navigator.pushNamed(context, StorePage.screenRoute);
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Invalid Email or Password")));
+                      }
+
+                      print(nameController!.text);
+                      print(passwordController!.text);
                     },
                   )),
               Row(
