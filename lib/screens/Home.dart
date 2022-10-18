@@ -21,6 +21,8 @@ class _HomeState extends State<Home> {
         leading: IconButton(
           onPressed: () {
             signOut();
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("logout successfully")));
           },
           icon: Icon(Icons.logout),
         ),
