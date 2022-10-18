@@ -1,9 +1,9 @@
-import 'dart:html';
-
+import 'package:citycafe_app/screens/Home.dart';
 import 'package:citycafe_app/screens/signup_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login_screen extends StatefulWidget {
   const Login_screen({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _Login_screenState extends State<Login_screen> {
     return Scaffold(
       body: Padding(
           padding: const EdgeInsets.all(10),
-          child: ListView(
+          child: Column(
             children: <Widget>[
               Container(
                   alignment: Alignment.center,
@@ -99,6 +99,7 @@ class _Login_screenState extends State<Login_screen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Invalid Email or Password")));
                     }
+                    Navigator.pushNamed(context, Home.screenRoute);
 
                     print(nameController!.text);
                     print(passwordController!.text);
@@ -106,21 +107,15 @@ class _Login_screenState extends State<Login_screen> {
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 30,
               ),
-              SignInButton(
-                text: "",
-                padding: EdgeInsets.all(1),
-                Buttons.Google,
-                onPressed: () {},
-              ),
-              MaterialButton(
-                onPressed: (() {}),
-                child: Image(
-                  image: AssetImage(
-                    'images/googleLogo.png',
-                  ),
-                  height: 40,
+              GestureDetector(
+                onTap: () {
+                  signInWithGmail();
+                },
+                child: Image.asset(
+                  'images/googleLogo.png',
+                  height: 50,
                 ),
               ),
               Row(
@@ -171,4 +166,18 @@ Widget _title() {
           ),
         ]),
   );
+}
+
+signInWithGmail() async {
+  final GoogleSignInAccount? googleUser =
+      await GoogleSignIn(scopes: <String>["email"]).signIn();
+
+  final GoogleSignInAuthentication googleAuth =
+      await googleUser!.authentication;
+
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }

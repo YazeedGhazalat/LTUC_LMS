@@ -14,6 +14,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   Widget _backButton() {
     return InkWell(
       onTap: () {
@@ -35,7 +37,8 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _entryField(String title, {bool isPassword = false}) {
+  Widget _entryField(String title,
+      {bool isPassword = false, TextEditingController? controler}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -49,6 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
+              controller: controler,
               obscureText: isPassword,
               decoration: InputDecoration(
                   border: InputBorder.none,
@@ -62,21 +66,21 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () async {
-        // try {
-        //   var authenticationobject = FirebaseAuth.instance;
+        try {
+          var authenticationobject = FirebaseAuth.instance;
 
-        //   UserCredential myUser =
-        //       await authenticationobject.createUserWithEmailAndPassword(
-        //           email: email.text, password: password.text);
-        //   ScaffoldMessenger.of(context)
-        //       .showSnackBar(SnackBar(content: Text("added successfully")));
-        //   if (myUser != null) {
-        //    // Navigator.pushNamed(context, StorePage.screenRoute);
-        //   }
-        // } catch (e) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //       SnackBar(content: Text("Invalid Email or Used before")));
-        // }
+          UserCredential myUser =
+              await authenticationobject.createUserWithEmailAndPassword(
+                  email: email.text, password: password.text);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("added successfully")));
+          if (myUser != null) {
+            // Navigator.pushNamed(context, StorePage.screenRoute);
+          }
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Invalid Email or Used before")));
+        }
       },
       splashColor: Colors.red,
       child: Container(
@@ -173,8 +177,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       children: <Widget>[
         _entryField("Username"),
-        _entryField("Email id"),
-        _entryField("Password", isPassword: true),
+        _entryField("Email id", controler: email),
+        _entryField("Password", isPassword: true, controler: password),
       ],
     );
   }
