@@ -2,7 +2,6 @@ import 'package:citycafe_app/screens/Home.dart';
 import 'package:citycafe_app/screens/signup_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Login_screen extends StatefulWidget {
@@ -19,126 +18,134 @@ class _Login_screenState extends State<Login_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
-                  child: _title()),
-              Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Color(0xffe46b10),
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold),
-                  )),
-              Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage("images/1.png"))),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: TextField(
-                  obscureText: true,
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: const Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                      color: Color(0xffe46b10), fontStyle: FontStyle.italic),
-                ),
-              ),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffe46b10)),
-                  child: const Text('Login'),
-                  onPressed: () async {
-                    try {
-                      var authenticationobject = FirebaseAuth.instance;
-
-                      UserCredential myUser =
-                          await authenticationobject.signInWithEmailAndPassword(
-                              email: nameController!.text,
-                              password: passwordController!.text);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("login successfully")));
-                      if (myUser != null) {
-                        // Navigator.pushNamed(context, StorePage.screenRoute);
-                      }
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Invalid Email or Password")));
-                    }
-                    Navigator.pushNamed(context, Home.screenRoute);
-
-                    print(nameController!.text);
-                    print(passwordController!.text);
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  signInWithGmail();
-                },
-                child: Image.asset(
-                  'images/googleLogo.png',
-                  height: 50,
-                ),
-              ),
-              Row(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
                 children: <Widget>[
-                  const Text('Does not have account?'),
-                  TextButton(
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(fontSize: 20),
+                  Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(10),
+                      child: _title()),
+                  Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(10),
+                      child: const Text(
+                        'Sign in',
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Color(0xffe46b10),
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      )),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        image:
+                            DecorationImage(image: AssetImage("images/1.png"))),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'User Name',
+                      ),
                     ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                    ),
+                  ),
+                  TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return SignUpPage();
-                        },
-                      ));
+                      //forgot password screen
                     },
-                  )
+                    child: const Text(
+                      'Forgot Password',
+                      style: TextStyle(
+                          color: Color(0xffe46b10),
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 250,
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffe46b10)),
+                      child: const Text('Login'),
+                      onPressed: () async {
+                        try {
+                          var authenticationobject = FirebaseAuth.instance;
+
+                          UserCredential myUser = await authenticationobject
+                              .signInWithEmailAndPassword(
+                                  email: nameController!.text,
+                                  password: passwordController!.text);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("login successfully")));
+                          if (myUser != null) {
+                            Navigator.pushNamed(context, Home.screenRoute);
+                          }
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Invalid Email or Password")));
+                        }
+
+                        print(nameController!.text);
+                        print(passwordController!.text);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      signInWithGmail();
+                    },
+                    child: Image.asset(
+                      'images/googleLogo.png',
+                      height: 50,
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Text('Does not have account?'),
+                      TextButton(
+                        child: const Text(
+                          'Sign up',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return SignUpPage();
+                            },
+                          ));
+                        },
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
                 ],
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ],
-          )),
+              )),
+        ),
+      ),
     );
   }
 }
