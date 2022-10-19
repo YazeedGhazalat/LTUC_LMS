@@ -33,7 +33,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (signInUser.email == "admin@gmail.com")
+    List adminList = ['admin@gmail.com', "yazeedabugazala@gmail.com"];
+    if (adminList.contains(signInUser.email))
       return adminPage();
     else
       return AnyUserPage();
