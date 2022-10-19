@@ -69,8 +69,10 @@ class _adminPageState extends State<adminPage> {
         child: SingleChildScrollView(
           child: StreamBuilder(
               // Read or get item from firestore
-              stream:
-                  FirebaseFirestore.instance.collection("student").snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection("student")
+                  .orderBy('stdName', descending: false)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text("there is an error");

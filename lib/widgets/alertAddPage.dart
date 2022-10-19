@@ -111,6 +111,7 @@ class _AlertPageState extends State<AlertPage> {
                   'id': docUser.id,
                   'stdName': stdName,
                   'stdID': stdID,
+                  'time': FieldValue.serverTimestamp(),
                 });
                 try {
                   ScaffoldMessenger.of(context).showSnackBar(

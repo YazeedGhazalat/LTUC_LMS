@@ -106,9 +106,16 @@ class _Login_screenState extends State<Login_screen> {
                           if (myUser != null) {
                             Navigator.pushNamed(context, Home.screenRoute);
                           }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Invalid Email or Password")));
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text("No user found for that email.")));
+                          } else if (e.code == 'wrong-password') {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "Wrong password provided for that user.")));
+                          }
                         }
 
                         print(nameController!.text);
