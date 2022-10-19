@@ -53,7 +53,7 @@ class _AnyUserPageState extends State<AnyUserPage> {
         ),
       ),
       body: SafeArea(
-        child: Container(
+        child: SingleChildScrollView(
           child: StreamBuilder(
               // Read or get item from firestore
               stream:

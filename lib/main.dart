@@ -23,15 +23,6 @@ void main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Login_screen();
-  }
-}
-
 //Determine if the user is authenticated.
 handleAuthState() {
   return StreamBuilder(

@@ -66,7 +66,7 @@ class _adminPageState extends State<adminPage> {
         ),
       ),
       body: SafeArea(
-        child: Container(
+        child: SingleChildScrollView(
           child: StreamBuilder(
               // Read or get item from firestore
               stream:

@@ -121,17 +121,7 @@ class _Login_screenState extends State<Login_screen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      try {
-                        UserCredential googleUser = await signInWithGoogle();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("login successfully")));
-                        if (googleUser != null) {
-                          Navigator.pushNamed(context, Home.screenRoute);
-                        }
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Invalid Email or Password")));
-                      }
+                      UserCredential googleUser = await signInWithGoogle();
                     },
                     child: Image.asset(
                       'images/googleLogo.png',
@@ -191,37 +181,28 @@ Widget _title() {
 }
 
 Future<UserCredential> signInWithGoogle() async {
-  try {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    print("$googleUser ***11***");
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    print("$googleAuth ****22***");
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    print("$credential *****333****");
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Once signed in, return the UserCredential
-  } catch (e) {
-    print("$e");
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    print("$googleUser ***11***");
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    print("$googleAuth ****22***");
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    print("$credential *****333****");
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
+  final GoogleSignInAuthentication? googleAuth =
+      await googleUser?.authentication;
+
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth!.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }
+
+
+//  try {
+//                         UserCredential googleUser = await signInWithGoogle();
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                             SnackBar(content: Text("login successfully")));
+//                         if (googleUser != null) {
+//                           Navigator.pushNamed(context, Home.screenRoute);
+//                         }
+//                       } catch (e) {
+//                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//                             content: Text("Invalid Email or Password")));
+//                       }
