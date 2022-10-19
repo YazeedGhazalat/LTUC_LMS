@@ -37,9 +37,11 @@ class _adminPageState extends State<adminPage> {
   }
 
   Widget build(BuildContext context) {
-    signOut() {
-      FirebaseAuth.instance.signOut();
+    Future signOut() async {
+      var result = await FirebaseAuth.instance.signOut();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signOut();
       Navigator.pushReplacementNamed(context, Login_screen.screenRoute);
+      return result;
     }
 
     return Scaffold(
