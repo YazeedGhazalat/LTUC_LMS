@@ -83,9 +83,14 @@ class _SignUpPageState extends State<SignUpPage> {
           if (myUser != null) {
             Navigator.pushNamed(context, Home.screenRoute);
           }
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'weak-password') {
+            print('The password provided is too weak.');
+          } else if (e.code == 'email-already-in-use') {
+            print('The account already exists for that email.');
+          }
         } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Invalid Email or Used before")));
+          print(e);
         }
       },
       splashColor: Colors.red,
