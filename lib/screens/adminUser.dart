@@ -4,6 +4,7 @@ import 'package:citycafe_app/widgets/alertUpdate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final _firestore = FirebaseFirestore.instance;
 late User signInUser; //this give us the email
@@ -57,8 +58,10 @@ class _adminPageState extends State<adminPage> {
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
         leading: IconButton(
-          onPressed: () {
+          onPressed: () async {
             signOut();
+            final GoogleSignInAccount? googleUser =
+                await GoogleSignIn().signOut();
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text("logout successfully")));
           },
