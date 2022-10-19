@@ -126,14 +126,17 @@ class _Login_screenState extends State<Login_screen> {
                   SizedBox(
                     height: 30,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      UserCredential googleUser = await signInWithGoogle();
-                    },
+                  MaterialButton(
+                    elevation: 10,
+                    minWidth: 50,
+                    shape: CircleBorder(),
                     child: Image.asset(
-                      'images/googleLogo.png',
+                      "images/googleLogo.png",
                       height: 50,
                     ),
+                    onPressed: () async {
+                      UserCredential googleUser = await signInWithGoogle();
+                    },
                   ),
                   Row(
                     children: <Widget>[
