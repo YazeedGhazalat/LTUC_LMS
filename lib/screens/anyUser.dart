@@ -2,6 +2,7 @@ import 'package:citycafe_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final _firestore = FirebaseFirestore.instance;
 late User signInUser; //this give us the email
@@ -33,10 +34,17 @@ class _AnyUserPageState extends State<AnyUserPage> {
     }
   }
 
-  signOut() {
-    FirebaseAuth.instance.signOut();
+  Future signOut() async {
+    var result = await FirebaseAuth.instance.signOut();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signOut();
     Navigator.pushReplacementNamed(context, Login_screen.screenRoute);
+    return result;
   }
+  // signOut() {
+  //   FirebaseAuth.instance.signOut();
+  //   Navigator.pushReplacementNamed(context, Login_screen.screenRoute);
+  //   signOutFromGoogle();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +54,7 @@ class _AnyUserPageState extends State<AnyUserPage> {
         leading: IconButton(
           onPressed: () {
             signOut();
+
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text("logout successfully")));
           },
