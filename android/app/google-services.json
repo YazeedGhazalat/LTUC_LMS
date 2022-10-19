@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1045357820998-gmt3tvfq1trsl6gamfusop9gk0di7rp5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.citycafe_app",
+            "certificate_hash": "7c4a8d09ca3762af61e59520943dc26494f8941b"
+          }
+        },
+        {
           "client_id": "1045357820998-crf7u9gevnjldv2mbiq99mgajb14ldrh.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "1045357820998-crf7u9gevnjldv2mbiq99mgajb14ldrh.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1045357820998-98duq5q3k2i9i99ihq6e422n47ijn2qj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.citycafeApp"
+              }
             }
           ]
         }
