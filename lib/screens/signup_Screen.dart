@@ -1,3 +1,4 @@
+import 'package:citycafe_app/screens/Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _entryField(String title,
-      {bool isPassword = false, TextEditingController? controler}) {
+      {bool isPassword = false,
+      TextEditingController? controler,
+      TextInputType? textType,
+      TextInputAction? action}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -52,6 +56,8 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
+              keyboardType: textType,
+              textInputAction: action,
               controller: controler,
               obscureText: isPassword,
               decoration: InputDecoration(
@@ -71,11 +77,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
           UserCredential myUser =
               await authenticationobject.createUserWithEmailAndPassword(
-                  email: email.text, password: password.text);
+                  email: email.text.trim(), password: password.text.trim());
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text("added successfully")));
           if (myUser != null) {
-            // Navigator.pushNamed(context, StorePage.screenRoute);
+            Navigator.pushNamed(context, Home.screenRoute);
           }
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -176,8 +182,12 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Username"),
-        _entryField("Email id", controler: email),
+        _entryField("Username",
+            action: TextInputAction.next, textType: TextInputType.name),
+        _entryField("Email id",
+            controler: email,
+            action: TextInputAction.next,
+            textType: TextInputType.emailAddress),
         _entryField("Password", isPassword: true, controler: password),
       ],
     );

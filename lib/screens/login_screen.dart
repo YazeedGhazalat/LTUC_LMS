@@ -1,8 +1,11 @@
 import 'package:citycafe_app/screens/Home.dart';
+import 'package:citycafe_app/screens/forgetPassowrd.dart';
 import 'package:citycafe_app/screens/signup_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+late User signInUser;
 
 class Login_screen extends StatefulWidget {
   const Login_screen({Key? key}) : super(key: key);
@@ -70,8 +73,10 @@ class _Login_screenState extends State<Login_screen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       //forgot password screen
+                      await Navigator.pushNamed(
+                          context, PasswordReset.screenRoute);
                     },
                     child: const Text(
                       'Forgot Password',
@@ -94,8 +99,8 @@ class _Login_screenState extends State<Login_screen> {
 
                           UserCredential myUser = await authenticationobject
                               .signInWithEmailAndPassword(
-                                  email: nameController!.text,
-                                  password: passwordController!.text);
+                                  email: nameController!.text.trim(),
+                                  password: passwordController!.text.trim());
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("login successfully")));
                           if (myUser != null) {
@@ -115,8 +120,18 @@ class _Login_screenState extends State<Login_screen> {
                     height: 30,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      signInWithGoogle();
+                    onTap: () async {
+                      try {
+                        UserCredential googleUser = await signInWithGoogle();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("login successfully")));
+                        if (googleUser != null) {
+                          Navigator.pushNamed(context, Home.screenRoute);
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Invalid Email or Password")));
+                      }
                     },
                     child: Image.asset(
                       'images/googleLogo.png',
@@ -176,19 +191,37 @@ Widget _title() {
 }
 
 Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  print("$googleUser ***11***");
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
-  print("$googleAuth ****22***");
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-  print("$credential *****333****");
-  // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
+  try {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    print("$googleUser ***11***");
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    print("$googleAuth ****22***");
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    print("$credential *****333****");
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // Once signed in, return the UserCredential
+  } catch (e) {
+    print("$e");
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    print("$googleUser ***11***");
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    print("$googleAuth ****22***");
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    print("$credential *****333****");
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 }

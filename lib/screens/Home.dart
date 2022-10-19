@@ -1,5 +1,9 @@
+import 'package:citycafe_app/screens/adminUser.dart';
+import 'package:citycafe_app/screens/anyUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+late User signInUser;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,25 +13,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _auth = FirebaseAuth.instance;
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        signInUser = user;
+        print(signInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    signOut() {
-      FirebaseAuth.instance.signOut();
-      Navigator.pop(context);
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            signOut();
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("logout successfully")));
-          },
-          icon: Icon(Icons.logout),
-        ),
-      ),
-      body: Container(),
-    );
+    if (signInUser.email == "admin@gmail.com")
+      return adminPage();
+    else
+      return AnyUserPage();
   }
 }

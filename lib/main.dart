@@ -1,5 +1,7 @@
 import 'package:citycafe_app/firebase_options.dart';
 import 'package:citycafe_app/screens/Home.dart';
+import 'package:citycafe_app/screens/anyUser.dart';
+import 'package:citycafe_app/screens/forgetPassowrd.dart';
 import 'package:citycafe_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,7 +12,13 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(MaterialApp(
-    routes: {Home.screenRoute: (context) => Home()},
+    debugShowCheckedModeBanner: false,
+    routes: {
+      Home.screenRoute: (context) => Home(),
+      AnyUserPage.screenRoute: (context) => AnyUserPage(),
+      Login_screen.screenRoute: ((context) => Login_screen()),
+      PasswordReset.screenRoute: (context) => PasswordReset(),
+    },
     home: handleAuthState(),
   ));
 }
