@@ -1,3 +1,5 @@
+import 'package:citycafe_app/components/delete.dart';
+import 'package:citycafe_app/components/update.dart';
 import 'package:citycafe_app/screens/login_screen.dart';
 import 'package:citycafe_app/widgets/alertAddPage.dart';
 import 'package:citycafe_app/widgets/alertUpdate.dart';
@@ -46,7 +48,7 @@ class _adminPageState extends State<adminPage> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(4, 24, 74, 1),
+        backgroundColor: Colors.deepOrange,
         elevation: 20,
         child: Icon(Icons.add),
         onPressed: () {
@@ -140,59 +142,6 @@ class listWediget extends StatelessWidget {
       isThreeLine: true,
       title: Text("$stdName"),
       subtitle: Text("$stdID"),
-    );
-  }
-}
-
-class delete_button extends StatelessWidget {
-  delete_button({
-    required this.ID,
-    required this.stdID,
-    required this.stdName,
-    Key? key,
-  }) : super(key: key);
-  String? stdName; //this give us the stdName for the name
-  String? stdID;
-  String? ID;
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () async {
-        // delete item
-        await _firestore.collection("student").doc(ID).delete().then(
-              (doc) => print("Document deleted"),
-              onError: (e) => print("Error deleteing document  "),
-            );
-      },
-      icon: Icon(Icons.delete),
-    );
-  }
-}
-
-class edit_button extends StatelessWidget {
-  edit_button({
-    required this.ID,
-    required this.stdID,
-    required this.stdName,
-    Key? key,
-  }) : super(key: key);
-  String? stdName; //this give us the stdName for the name
-  String? stdID;
-  String? ID;
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () async {
-        showDialog(
-            context: context,
-            builder: ((context) {
-              return AlertUpdate(
-                //update item
-                ID: ID,
-              );
-            }));
-      },
-      icon: Icon(Icons.edit),
     );
   }
 }

@@ -99,7 +99,7 @@ class _AlertPageState extends State<AlertPage> {
           MyButton(
               fontsize: 20,
               Fontcolor: Colors.white,
-              color: Colors.green,
+              color: Colors.deepOrange,
               onPressed: () {
                 // print(signInUser.email);
                 print("${stdName}     ${stdID}");
@@ -109,7 +109,7 @@ class _AlertPageState extends State<AlertPage> {
                     FirebaseFirestore.instance.collection("student").doc();
                 docUser.set({
                   'id': docUser.id,
-                  'stdName': stdName,
+                  'stdName': stdName!.toTitleCase(),
                   'stdID': stdID,
                   'time': FieldValue.serverTimestamp(),
                 });
@@ -126,4 +126,13 @@ class _AlertPageState extends State<AlertPage> {
       ),
     );
   }
+}
+
+extension StringCasingExtension on String {
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
 }

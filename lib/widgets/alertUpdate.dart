@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:citycafe_app/components/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -125,7 +127,7 @@ class _AlertUpdateState extends State<AlertUpdate> {
           MyButton(
               fontsize: 20,
               Fontcolor: Colors.white,
-              color: Color.fromRGBO(76, 175, 80, 1),
+              color: Colors.deepOrange,
               onPressed: (() {
                 if (stdIDCheck && !nameCheck) {
                   final updatedstdName =
@@ -154,6 +156,7 @@ class _AlertUpdateState extends State<AlertUpdate> {
                           print("DocumentSnapshot successfully updated!"),
                       onError: (e) => print("Error updating document $e"));
                 }
+                Navigator.pop(context);
               }),
               title: "Update item")
         ],
