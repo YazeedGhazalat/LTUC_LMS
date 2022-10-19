@@ -203,16 +203,3 @@ Future<UserCredential> signInWithGoogle() async {
 
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }
-
-
-//  try {
-//                         UserCredential googleUser = await signInWithGoogle();
-//                         ScaffoldMessenger.of(context).showSnackBar(
-//                             SnackBar(content: Text("login successfully")));
-//                         if (googleUser != null) {
-//                           Navigator.pushNamed(context, Home.screenRoute);
-//                         }
-//                       } catch (e) {
-//                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//                             content: Text("Invalid Email or Password")));
-//                       }
