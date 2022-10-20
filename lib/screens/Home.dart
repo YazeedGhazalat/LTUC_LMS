@@ -1,5 +1,6 @@
 import 'package:citycafe_app/screens/admin/adminUserScreen.dart';
 import 'package:citycafe_app/screens/normalUserScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -45,4 +46,8 @@ class _HomeState extends State<Home> {
     else
       return AnyUserPage();
   }
+}
+
+adminList() {
+  List adminList = [];
 }

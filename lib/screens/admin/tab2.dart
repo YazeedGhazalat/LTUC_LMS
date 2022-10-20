@@ -19,6 +19,7 @@ class _Stream2State extends State<Stream2> {
   final _auth = FirebaseAuth.instance;
 
   String? adminEmail;
+  String? role;
   //this give us the admin Email for the name
   void initState() {
     super.initState();
@@ -54,7 +55,7 @@ class _Stream2State extends State<Stream2> {
                 }),
                 controller: adminControl,
                 decoration: InputDecoration(
-                  hintText: "Admin Email",
+                  hintText: "user Email",
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 20,
@@ -94,10 +95,11 @@ class _Stream2State extends State<Stream2> {
 
                   try {
                     final docUser =
-                        FirebaseFirestore.instance.collection("admin").doc();
+                        FirebaseFirestore.instance.collection("users").doc();
                     docUser.set({
+                      'role': "User",
                       'id': docUser.id,
-                      'adminEmail': adminEmail!.toTitleCase(),
+                      'userEmail': adminEmail!.toTitleCase(),
                       'time': FieldValue.serverTimestamp(),
                     });
 
@@ -113,8 +115,8 @@ class _Stream2State extends State<Stream2> {
         StreamBuilder(
             // Read or get item from firestore
             stream: FirebaseFirestore.instance
-                .collection("admin")
-                .orderBy('adminEmail', descending: false)
+                .collection("users")
+                .orderBy('userEmail', descending: false)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -124,9 +126,11 @@ class _Stream2State extends State<Stream2> {
                 final admins = snapshot.data!.docs;
                 List<adminListWedget> adminListWedgets = [];
                 for (var admin in admins) {
-                  final adminEmail = admin["adminEmail"];
+                  final adminEmail = admin["userEmail"];
                   final id = admin['id'];
+                  final role = admin['role'];
                   final listwedget = adminListWedget(
+                    role: role,
                     adminEmail: adminEmail,
                     ID: id,
                   );
@@ -155,13 +159,14 @@ extension StringCasingExtension on String {
 class adminListWedget extends StatefulWidget {
   adminListWedget({
     required this.ID,
+    required this.role,
     required this.adminEmail,
     Key? key,
   }) : super(key: key);
   String? adminEmail;
 
+  String? role;
   String? ID;
-
   @override
   State<adminListWedget> createState() => _adminListWedgetState();
 }
@@ -180,6 +185,7 @@ class _adminListWedgetState extends State<adminListWedget> {
         children: <Widget>[
           if (adminList.contains(signInUser.email))
             editAdmin_button(
+              role: widget.role,
               ID: widget.ID,
               adminEmail: widget.adminEmail,
             ),
@@ -191,7 +197,7 @@ class _adminListWedgetState extends State<adminListWedget> {
       ),
       isThreeLine: true,
       title: Text("${widget.adminEmail}"),
-      subtitle: Text("${widget.ID}"),
+      subtitle: Text("${widget.role}"),
     );
   }
 }

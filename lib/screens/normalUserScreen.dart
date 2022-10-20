@@ -50,6 +50,7 @@ class _AnyUserPageState extends State<AnyUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.deepOrange,
         actions: [
           IconButton(

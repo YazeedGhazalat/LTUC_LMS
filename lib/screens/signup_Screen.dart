@@ -1,4 +1,5 @@
 import 'package:citycafe_app/screens/Home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +16,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   Widget _backButton() {
     return InkWell(
       onTap: () {
@@ -77,12 +78,34 @@ class _SignUpPageState extends State<SignUpPage> {
 
           UserCredential myUser =
               await authenticationobject.createUserWithEmailAndPassword(
-                  email: email.text.trim(), password: password.text.trim());
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("added successfully")));
+                  email: emailController.text.trim(),
+                  password: passwordController.text.trim());
+
           if (myUser != null) {
+            print("${emailController}");
+
+            try {
+              final docUser =
+                  FirebaseFirestore.instance.collection("users").doc();
+              docUser.set({
+                'id': docUser.id,
+                'userEmail': emailController.text.toString().trim(),
+                'time': FieldValue.serverTimestamp(),
+                "role": "User"
+              });
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Registered email successfully")));
+            } catch (e) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Cannot be null ")));
+            }
+            emailController.clear();
+            passwordController.clear();
             Navigator.pushNamed(context, Home.screenRoute);
           }
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(content: Text("Registered email successfully")));
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             print('The password provided is too weak.');
@@ -190,10 +213,11 @@ class _SignUpPageState extends State<SignUpPage> {
         _entryField("Username",
             action: TextInputAction.next, textType: TextInputType.name),
         _entryField("Email id",
-            controler: email,
+            controler: emailController,
             action: TextInputAction.next,
             textType: TextInputType.emailAddress),
-        _entryField("Password", isPassword: true, controler: password),
+        _entryField("Password",
+            isPassword: true, controler: passwordController),
       ],
     );
   }
@@ -202,40 +226,42 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Container(
-        height: height,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: -MediaQuery.of(context).size.height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: Text("abed"),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: height * .2),
-                    _title(),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    _emailPasswordWidget(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _submitButton(),
-                    SizedBox(height: height * .14),
-                    _loginAccountLabel(),
-                  ],
+      body: SafeArea(
+        child: Container(
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: -MediaQuery.of(context).size.height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: Text("abed"),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: height * .2),
+                      _title(),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      _emailPasswordWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _submitButton(),
+                      SizedBox(height: height * .14),
+                      _loginAccountLabel(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(top: 40, left: 0, child: _backButton()),
-          ],
+              Positioned(top: 40, left: 0, child: _backButton()),
+            ],
+          ),
         ),
       ),
     );

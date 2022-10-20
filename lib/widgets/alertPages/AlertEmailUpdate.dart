@@ -9,11 +9,12 @@ final _firestore = FirebaseFirestore.instance;
 
 class AlertEmailUpdate extends StatefulWidget {
   AlertEmailUpdate({
+    required this.role,
     this.ID,
     Key? key,
   }) : super(key: key);
   String? ID;
-
+  String? role;
   @override
   State<AlertEmailUpdate> createState() => _AlertEmailUpdateState();
 }
@@ -23,45 +24,44 @@ class _AlertEmailUpdateState extends State<AlertEmailUpdate> {
 
   late String adminEmail;
   //this give us the stdName for the pic
-
+  String dropdownValue = 'Admin';
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Column(
         children: [
-          TextField(
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.done,
-            onChanged: ((value) {
-              adminEmail = value;
-            }),
-            controller: EmailAdminControl,
-            decoration: InputDecoration(
-              hintText: "Admin email",
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
+          Container(
+            width: 250,
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              icon: Padding(
+                padding: const EdgeInsets.only(left: 80.0, bottom: 2),
+                child: const Icon(
+                  Icons.arrow_downward,
                 ),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.orange, width: 1),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepOrange, fontSize: 25),
+              underline: Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Container(
+                  height: 2,
+                  color: Colors.deepOrange,
                 ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
-                ),
-              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: <String>['Admin', 'User', 'Super Admin']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
           ),
           SizedBox(
@@ -73,10 +73,10 @@ class _AlertEmailUpdateState extends State<AlertEmailUpdate> {
               color: Colors.deepOrange,
               onPressed: (() {
                 EmailAdminControl.clear();
-                final updatedstdName =
-                    _firestore.collection("admin").doc(widget.ID);
-                updatedstdName
-                    .update({"adminEmail": "$adminEmail".toTitleCase()}).then(
+                final updatedroleName =
+                    _firestore.collection("users").doc(widget.ID);
+                updatedroleName
+                    .update({"role": "$dropdownValue".toTitleCase()}).then(
                         (value) =>
                             print("DocumentSnapshot successfully updated!"),
                         onError: (e) => print("Error updating document $e"));

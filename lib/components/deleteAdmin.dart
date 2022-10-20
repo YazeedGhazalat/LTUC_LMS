@@ -17,7 +17,7 @@ class _deleteAdmin_buttonState extends State<deleteAdmin_button> {
     return IconButton(
       onPressed: () async {
         // delete item
-        await _firestore.collection("admin").doc(widget.ID).delete().then(
+        await _firestore.collection("users").doc(widget.ID).delete().then(
               (doc) => print("Document deleted"),
               onError: (e) => print("Error deleteing document  "),
             );
