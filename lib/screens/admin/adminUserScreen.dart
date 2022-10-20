@@ -62,6 +62,7 @@ class _adminPageState extends State<adminPage> {
           },
         ),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.deepOrange,
           actions: [
             IconButton(
