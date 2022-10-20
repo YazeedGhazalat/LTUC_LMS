@@ -96,7 +96,7 @@ class _AlertPageState extends State<AlertPage> {
               ),
             ),
           ),
-          MyButton(
+          Button_one(
               fontsize: 20,
               Fontcolor: Colors.white,
               color: Colors.deepOrange,
@@ -105,20 +105,21 @@ class _AlertPageState extends State<AlertPage> {
                 print("${stdName}     ${stdID}");
                 NameControl.clear();
                 IDControl.clear();
-                final docUser =
-                    FirebaseFirestore.instance.collection("student").doc();
-                docUser.set({
-                  'id': docUser.id,
-                  'stdName': stdName!.toTitleCase(),
-                  'stdID': stdID,
-                  'time': FieldValue.serverTimestamp(),
-                });
                 try {
+                  final docUser =
+                      FirebaseFirestore.instance.collection("student").doc();
+                  docUser.set({
+                    'id': docUser.id,
+                    'stdName': stdName!.toTitleCase(),
+                    'stdID': stdID,
+                    'time': FieldValue.serverTimestamp(),
+                  });
+
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("added successfully")));
                 } catch (e) {
                   ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text("$e")));
+                      .showSnackBar(SnackBar(content: Text("Cannot be null")));
                 }
               },
               title: "Add to List"),

@@ -124,7 +124,7 @@ class _AlertUpdateState extends State<AlertUpdate> {
               ),
             ),
           ),
-          MyButton(
+          Button_one(
               fontsize: 20,
               Fontcolor: Colors.white,
               color: Colors.deepOrange,

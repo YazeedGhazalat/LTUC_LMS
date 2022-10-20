@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MyButton extends StatelessWidget {
-  MyButton(
+class Button_one extends StatelessWidget {
+  Button_one(
       {this.fontsize,
       this.Fontcolor,
       required this.color,
@@ -59,6 +59,36 @@ class storeButtton extends StatelessWidget {
         color: iconColor,
       ),
       elevation: 20,
+    );
+  }
+}
+
+class Button_Tow extends StatelessWidget {
+  Button_Tow({
+    required this.child,
+    required this.color,
+    required this.onPressed,
+  });
+  final Color color;
+  final Widget? child;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Material(
+        elevation: 5,
+        color: color,
+        shape: CircleBorder(),
+        child: MaterialButton(
+          shape: CircleBorder(),
+          onPressed: onPressed,
+          height: 42,
+          minWidth: 50,
+          child: child,
+        ),
+      ),
     );
   }
 }

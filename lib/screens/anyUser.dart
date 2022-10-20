@@ -51,15 +51,17 @@ class _AnyUserPageState extends State<AnyUserPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
-        leading: IconButton(
-          onPressed: () {
-            signOut();
+        actions: [
+          IconButton(
+            onPressed: () {
+              signOut();
 
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("logout successfully")));
-          },
-          icon: Icon(Icons.logout),
-        ),
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("logout successfully")));
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

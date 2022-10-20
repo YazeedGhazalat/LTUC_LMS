@@ -1,11 +1,10 @@
-import 'package:citycafe_app/widgets/alertUpdate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class edit_button extends StatelessWidget {
-  edit_button({
+class deleteStd_button extends StatelessWidget {
+  deleteStd_button({
     required this.ID,
     required this.stdID,
     required this.stdName,
@@ -18,16 +17,13 @@ class edit_button extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        showDialog(
-            context: context,
-            builder: ((context) {
-              return AlertUpdate(
-                //update item
-                ID: ID,
-              );
-            }));
+        // delete item
+        await _firestore.collection("student").doc(ID).delete().then(
+              (doc) => print("Document deleted"),
+              onError: (e) => print("Error deleteing document  "),
+            );
       },
-      icon: Icon(Icons.edit),
+      icon: Icon(Icons.delete),
     );
   }
 }
