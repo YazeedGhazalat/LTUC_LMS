@@ -1,6 +1,7 @@
 import 'package:citycafe_app/screens/admin/tab1.dart';
 import 'package:citycafe_app/screens/admin/tab2.dart';
-import 'package:citycafe_app/screens/login_screen.dart';
+import 'package:citycafe_app/screens/admin/tab3.dart';
+import 'package:citycafe_app/screens/login_signUp/login_screen.dart';
 import 'package:citycafe_app/widgets/alertPages/alertAddPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,7 +47,7 @@ class _adminPageState extends State<adminPage> {
     }
 
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
@@ -85,10 +86,14 @@ class _adminPageState extends State<adminPage> {
               icon: Icon(Icons.list),
               text: "Admin List",
             ),
+            Tab(
+              icon: Icon(Icons.person_pin_outlined),
+              text: "Profile",
+            ),
           ]),
         ),
         body: SafeArea(
-          child: TabBarView(children: [straem1(), Stream2()]),
+          child: TabBarView(children: [straem1(), Stream2(), profilePage()]),
         ),
       ),
     );

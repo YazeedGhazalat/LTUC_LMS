@@ -16,6 +16,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController UserNameControler = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Widget _backButton() {
@@ -78,8 +79,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
           UserCredential myUser =
               await authenticationobject.createUserWithEmailAndPassword(
-                  email: emailController.text.trim(),
-                  password: passwordController.text.trim());
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
 
           if (myUser != null) {
             print("${emailController}");
@@ -89,6 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   FirebaseFirestore.instance.collection("users").doc();
               docUser.set({
                 'id': docUser.id,
+                'UserName': UserNameControler.text.toString().trim(),
                 'userEmail': emailController.text.toString().trim(),
                 'time': FieldValue.serverTimestamp(),
                 "role": "User"
@@ -102,6 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
             }
             emailController.clear();
             passwordController.clear();
+            UserNameControler.clear();
             Navigator.pushNamed(context, Home.screenRoute);
           }
           // ScaffoldMessenger.of(context).showSnackBar(
@@ -211,7 +215,9 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       children: <Widget>[
         _entryField("Username",
-            action: TextInputAction.next, textType: TextInputType.name),
+            controler: UserNameControler,
+            action: TextInputAction.next,
+            textType: TextInputType.name),
         _entryField("Email id",
             controler: emailController,
             action: TextInputAction.next,

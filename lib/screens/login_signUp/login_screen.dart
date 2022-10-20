@@ -1,6 +1,6 @@
 import 'package:citycafe_app/screens/Home.dart';
 import 'package:citycafe_app/widgets/forgetPassowrd.dart';
-import 'package:citycafe_app/screens/signup_Screen.dart';
+import 'package:citycafe_app/screens/login_signUp/signup_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';

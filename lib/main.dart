@@ -1,7 +1,7 @@
 import 'package:citycafe_app/firebase_options.dart';
 import 'package:citycafe_app/screens/Home.dart';
 import 'package:citycafe_app/screens/normalUserScreen.dart';
-import 'package:citycafe_app/screens/login_screen.dart';
+import 'package:citycafe_app/screens/login_signUp/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
