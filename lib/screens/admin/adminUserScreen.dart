@@ -69,6 +69,7 @@ class _adminPageState extends State<adminPage> {
             IconButton(
               onPressed: () async {
                 signOut();
+
                 final GoogleSignInAccount? googleUser =
                     await GoogleSignIn().signOut();
                 ScaffoldMessenger.of(context).showSnackBar(

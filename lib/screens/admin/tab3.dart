@@ -1,7 +1,53 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class profilePage extends StatelessWidget {
-  const profilePage({Key? key}) : super(key: key);
+late User signInUser;
+
+class profilePage extends StatefulWidget {
+  profilePage({Key? key}) : super(key: key);
+
+  @override
+  State<profilePage> createState() => _profilePageState();
+}
+
+class _profilePageState extends State<profilePage> {
+  final _auth = FirebaseAuth.instance;
+
+  dynamic userName;
+
+  String? role;
+
+  //this give us the admin Email for the name
+  void initState() {
+    super.initState();
+    getCurrentUser();
+    getData();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        signInUser = user;
+        print(signInUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getData() async {
+    final DocumentReference document =
+        FirebaseFirestore.instance.collection("users").doc("");
+
+    await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      setState(() {
+        userName = snapshot.toString();
+        print(userName);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +62,7 @@ class profilePage extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Richie Lorie",
+                    "${signInUser.displayName}",
                     style: Theme.of(context)
                         .textTheme
                         .headline6
@@ -35,7 +81,10 @@ class profilePage extends StatelessWidget {
                       ),
                       const SizedBox(width: 16.0),
                       FloatingActionButton.extended(
-                        onPressed: () {},
+                        onPressed: () {
+                          print(userName);
+                          print(signInUser.displayName);
+                        },
                         heroTag: 'mesage',
                         elevation: 0,
                         backgroundColor: Colors.red,
