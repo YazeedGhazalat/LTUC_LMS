@@ -31,7 +31,11 @@ class _AlertEmailUpdateState extends State<AlertEmailUpdate> {
       title: Column(
         children: [
           Container(
-            width: 250,
+            constraints: BoxConstraints(
+                maxHeight: double.infinity,
+                maxWidth: double.infinity,
+                minHeight: 50,
+                minWidth: 200),
             child: DropdownButton<String>(
               value: dropdownValue,
               icon: Padding(
@@ -42,7 +46,7 @@ class _AlertEmailUpdateState extends State<AlertEmailUpdate> {
               ),
               iconSize: 24,
               elevation: 16,
-              style: const TextStyle(color: Colors.deepOrange, fontSize: 25),
+              style: const TextStyle(color: Colors.deepOrange, fontSize: 20),
               underline: Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Container(
