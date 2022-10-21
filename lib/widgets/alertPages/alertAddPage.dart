@@ -100,14 +100,14 @@ class _AlertPageState extends State<AlertPage> {
               fontsize: 20,
               Fontcolor: Colors.white,
               color: Colors.deepOrange,
-              onPressed: () {
-                // print(signInUser.email);
+              onPressed: () async {
                 print("${stdName}     ${stdID}");
                 NameControl.clear();
                 IDControl.clear();
                 try {
-                  final docUser =
-                      FirebaseFirestore.instance.collection("student").doc();
+                  final docUser = await FirebaseFirestore.instance
+                      .collection("student")
+                      .doc();
                   docUser.set({
                     'id': docUser.id,
                     'stdName': stdName!.toTitleCase(),

@@ -83,6 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
             password: passwordController.text.trim(),
           );
 
+          // ignore: unnecessary_null_comparison
           if (myUser != null) {
             print("${emailController}");
 
@@ -108,8 +109,6 @@ class _SignUpPageState extends State<SignUpPage> {
             UserNameControler.clear();
             Navigator.pushNamed(context, Home.screenRoute);
           }
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(content: Text("Registered email successfully")));
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             print('The password provided is too weak.');

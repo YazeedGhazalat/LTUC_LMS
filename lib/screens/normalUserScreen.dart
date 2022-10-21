@@ -40,11 +40,6 @@ class _AnyUserPageState extends State<AnyUserPage> {
     Navigator.pushReplacementNamed(context, Login_screen.screenRoute);
     return result;
   }
-  // signOut() {
-  //   FirebaseAuth.instance.signOut();
-  //   Navigator.pushReplacementNamed(context, Login_screen.screenRoute);
-  //   signOutFromGoogle();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +97,7 @@ class _AnyUserPageState extends State<AnyUserPage> {
   }
 }
 
+// ignore: must_be_immutable
 class listWediget extends StatelessWidget {
   listWediget({
     required this.ID,

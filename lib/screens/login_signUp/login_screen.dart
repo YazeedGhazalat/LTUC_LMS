@@ -17,7 +17,7 @@ class Login_screen extends StatefulWidget {
 class _Login_screenState extends State<Login_screen> {
   TextEditingController? nameController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
-
+  bool scureText = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +55,7 @@ class _Login_screenState extends State<Login_screen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       controller: nameController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'User Name',
                       ),
@@ -63,10 +63,22 @@ class _Login_screenState extends State<Login_screen> {
                   ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: TextField(
-                      obscureText: true,
+                    child: TextFormField(
+                      obscureText: scureText,
                       controller: passwordController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            // Based on passwordVisible state choose the icon
+                            scureText ? Icons.visibility_off : Icons.visibility,
+                            color: scureText ? Colors.grey : Colors.amber,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              scureText = !scureText;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(),
                         labelText: 'Password',
                       ),
@@ -103,6 +115,7 @@ class _Login_screenState extends State<Login_screen> {
                                   password: passwordController!.text.trim());
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("login successfully")));
+                          // ignore: unnecessary_null_comparison
                           if (myUser != null) {
                             Navigator.pushNamed(context, Home.screenRoute);
                           }
