@@ -48,6 +48,45 @@ class _HomeState extends State<Home> {
   }
 }
 
-adminList() {
-  List adminList = [];
-}
+// adminList() {
+//   List adminList = [];
+// }
+
+
+//  List adminList = [
+//       'Admin',
+//       "Super Admin",
+//     ];
+//     String? adminRole;
+//     String? userID;
+//     return StreamBuilder(
+//       stream: FirebaseFirestore.instance.collection("users").snapshots(),
+//       builder: (BuildContext context, AsyncSnapshot snapshot) {
+//         if (snapshot.hasError) {
+//           return Text("there is an error");
+//         }
+
+//         if (snapshot.hasData) {
+//           final admins = snapshot.data!.docs;
+//           for (var admin in admins) {
+//             final role = admin['role'];
+//             final Email = admin['UserEmail'];
+//             adminRole = role;
+//             userID = Email;
+//           }
+//           if (signInUser.email == userID &&
+//               adminList.contains(adminRole.toString())) {
+//             print('******${adminRole}');
+//             return adminPage();
+//           } else if (!adminList.contains(adminRole.toString())) {
+//             print(adminRole);
+//             return AnyUserPage();
+//           }
+//         }
+//         return const CircularProgressIndicator.adaptive();
+//       },
+//     );
+//   }
+// }
+
+// class adminList

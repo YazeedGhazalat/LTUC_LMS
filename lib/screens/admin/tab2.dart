@@ -65,6 +65,7 @@ class _Stream2State extends State<Stream2> {
                   );
                   adminListWedgets.add(listwedget);
                 }
+
                 return Column(
                   children: adminListWedgets,
                 );

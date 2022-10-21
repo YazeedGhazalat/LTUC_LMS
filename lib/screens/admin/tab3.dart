@@ -13,7 +13,7 @@ class profilePage extends StatefulWidget {
 
 class _profilePageState extends State<profilePage> {
   final _auth = FirebaseAuth.instance;
-
+  final _firesore = FirebaseFirestore.instance;
   dynamic userName;
 
   String? role;
@@ -22,7 +22,6 @@ class _profilePageState extends State<profilePage> {
   void initState() {
     super.initState();
     getCurrentUser();
-    getData();
   }
 
   void getCurrentUser() {
@@ -37,18 +36,17 @@ class _profilePageState extends State<profilePage> {
     }
   }
 
-  Future<dynamic> getData() async {
-    final DocumentReference document =
-        FirebaseFirestore.instance.collection("users").doc("");
-
-    await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      setState(() {
-        userName = snapshot.toString();
-        print(userName);
-      });
-    });
-  }
-
+  var documentStream = FirebaseFirestore.instance
+      .collection('users')
+      .doc("role")
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('Document data: ${documentSnapshot.data()}');
+    } else {
+      print('Document does not exist on the database');
+    }
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +80,9 @@ class _profilePageState extends State<profilePage> {
                       const SizedBox(width: 16.0),
                       FloatingActionButton.extended(
                         onPressed: () {
-                          print(userName);
                           print(signInUser.displayName);
+
+                          print(documentStream);
                         },
                         heroTag: 'mesage',
                         elevation: 0,
